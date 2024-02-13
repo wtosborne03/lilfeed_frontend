@@ -48,7 +48,7 @@ img:hover {
 }
 
 .number-input {
-	--PhoneInput-color--focus: #00000000;
+	--PhoneInput-color--focus: #bbbbbb;
 	--PhoneInputInternationalIconPhone-opacity: 0.8;
 	--PhoneInputInternationalIconGlobe-opacity: 0.65;
 	--PhoneInputCountrySelect-marginRight: 0.35em;
@@ -59,12 +59,12 @@ img:hover {
 	--PhoneInputCountrySelectArrow-color: currentColor;
 	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInput-color--focus);
 	--PhoneInputCountrySelectArrow-transform: rotate(45deg);
-	--PhoneInputCountryFlag-aspectRatio: 1.5;
-	--PhoneInputCountryFlag-height: 30px;
-	--PhoneInputCountryFlag-borderWidth: 0px;
-	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
-	--PhoneInputCountryFlag-borderColor--focus: var(--PhoneInput-color--focus);
-	--PhoneInputCountryFlag-backgroundColor--loading: rgba(0, 0, 0, 0.1);
+	--PhoneInputCountryFlag-aspectRatio: 2;
+	--PhoneInputCountryFlag-height: 20px;
+	--PhoneInputCountryFlag-borderWidth: 3px;
+	--PhoneInputCountryFlag-borderColor: #00000000;
+	--PhoneInputCountryFlag-borderColor--focus: #00000000;
+	--PhoneInputCountryFlag-backgroundColor--loading: #00000000;
 	color: white;
 }
 

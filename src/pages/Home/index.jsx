@@ -4,37 +4,29 @@ import client from "../../axios-client";
 import { Spinner } from "@material-tailwind/react";
 import Login from "./login";
 import Home from "./home";
+import { hist } from "../../axios-client";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserData } from '../../actions/dataActions';
 
 export function Index() {
-	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const dispatch = useDispatch();
+	const { user, loading, error } = useSelector(state => state.user);
 
-	useEffect(async () => {
-		try {
-			var response = await client.get('/user');
-			setUser(response.data);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			if (error.response.status == 401) {
-				setLoading(false);
-			}
-		}
-	}, []);
+	useEffect(() => {
+		dispatch(fetchUserData());
+	}, [dispatch]);
+	console.log(user);
 
 	return (
 		//loading screen
-
-		loading ? (
-			<Spinner ></Spinner >
-		)
+		(loading && user == null) ?
+			<div class="h-full"><Spinner className='m-auto h-full'></Spinner></div>
 			:
 			user == null ? (
 				<Login></Login>
 			) :
 				(
-					<Home user={user}></Home>
+					<Home user={user.user}></Home>
 				)
-
 	);
 }

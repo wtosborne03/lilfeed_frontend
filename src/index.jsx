@@ -1,3 +1,5 @@
+// @ts-nocheck
+import 'preact/debug';
 import { render } from 'preact';
 import Router from 'preact-router';
 import { Header } from './components/Header.jsx';
@@ -9,21 +11,27 @@ import Space from './pages/Space/index.jsx';
 import { ThemeProvider } from "@material-tailwind/react";
 import BlogPostEditor from './pages/Write/index.jsx';
 import ProfileEditPage from './pages/EditPage/index.jsx';
+import { hist } from './axios-client.js';
+import { r_store } from './redux/store.js';
+import { Provider } from 'react-redux';
+import PostPage from './pages/PostPage/index.jsx';
 
 export function App() {
-
 	return (
 		<ThemeProvider>
-			<main>
-				<Router>
-					<Index path="/" />
-					<Space path="/:number" />
-					<BlogPostEditor path="/write" />
-					<ProfileEditPage path="/edit" />
-					<NotFound default />
-				</Router>
-			</main>
-		</ThemeProvider>
+			<Provider store={r_store}>
+				<main>
+					<Router >
+						<Index path="/" />
+						<Space path="/:number" />
+						<BlogPostEditor path="/write" />
+						<ProfileEditPage path="/edit" />
+						<PostPage path="/:number/:postID" />
+						<NotFound default />
+					</Router>
+				</main>
+			</Provider>
+		</ThemeProvider >
 	);
 }
 

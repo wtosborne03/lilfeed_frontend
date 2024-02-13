@@ -1,25 +1,45 @@
+// @ts-nocheck
 import { route } from "preact-router";
+import { Button } from "@material-tailwind/react";
+import { FaShareFromSquare } from "react-icons/fa6";
+import 'share-api-polyfill';
 
 
 export const ProfileCard = (props) => {
     const edit = () => {
-        route('/edit');
+        route('/edit', false);
+    }
+
+    const share = () => {
+        const shareData = {
+            title: "",
+            text: "My lil-Feed!",
+            url: 'https://lil-feed.com/' + props.user.user['number'],
+        };
+        navigator.share(shareData);
     }
 
     return (
-        <div class="bg-gray-200 rounded-2xl mb-5 w-96 text-black ">
-            <div class="px-6 py-4">
-                <div class="flex flex-row justify-between">
-                    <div class="w-10"></div>
-                    <div class="font-bold text-3xl mb-2">{props.user.user['name']}</div>
-                    <button onClick={edit} class="w-10 text-2xl">{props.user.self ? '✏️' : ''}</button>
+        <div class=" mb-5 w-full text-white flex flex-col items-start text-start ">
+            <div class="flex flex-row justify-between w-full">
+                <div class="px-1 py-4 w-full">
+                    <div class="flex flex-row justify-between w-full">
+                        <div class="font-bold text-3xl mb-2">{props.user.user['name']}</div>
+                        <div class="flex-grow"></div>
+                        <Button onClick={share} variant="gradient" className="flex items-center gap-3">
+                            <FaShareFromSquare size="1.5em"></FaShareFromSquare>Share
+                        </Button>
+                    </div>
+                    <div class="flex flex-row gap-3">
+                        <div onClick={share} class="font-bold text-gray-300 hover:cursor-pointer text-lg mb-2">{props.user.user['number']}</div>
+                    </div>
+                    <p class=" text-base">
+                        {props.user.user['bio']}
+                    </p>
                 </div>
-                <div class="font-bold text-gray-700 text-md mb-2">{props.user.user['number']}</div>
-                <p class="text-black text-base">
-                    {props.user.user['bio']}
-                </p>
+
             </div>
-            <div class="px-6 pt-4 pb-2">
+            <div class=" border w-full h-0">
 
             </div>
         </div>

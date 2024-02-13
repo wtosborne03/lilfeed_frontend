@@ -1,104 +1,53 @@
 // @ts-nocheck
 import { useMemo, useState, useEffect } from 'preact/hooks';
-import { createEditor, Editor } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
-import { withHistory } from 'slate-history';
 import { Button, Spinner } from '@material-tailwind/react';
 import { route } from 'preact-router';
 import client from '../../axios-client';
 import { NotFound } from '../_404';
-
-// Define a serialize function to convert the content state to a string
-const serialize = (value) => {
-    console.log(value);
-    return (
-        JSON.stringify(value[0]['children'])
-    );
-};
-
-// Define a deserialize function to convert a string to the content state
-const deserialize = (stringContent) => {
-    return stringContent.split('\n').map(line => ({
-        children: [{ text: line }],
-    }));
-};
-
-// Define a toggleMark function to apply and remove marks
-const toggleMark = (editor, format) => {
-    const isActive = isMarkActive(editor, format);
-
-    if (isActive) {
-        Editor.removeMark(editor, format);
-    } else {
-        Editor.addMark(editor, format, true);
-    }
-};
-
-// Define a isMarkActive function to check if a mark is active
-const isMarkActive = (editor, format) => {
-    const marks = Editor.marks(editor);
-    return marks ? marks[format] === true : false;
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserData } from '../../actions/dataActions';
+import './style.scss'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import {
+    Dialog,
+    DialogHeader,
+    DialogFooter,
+} from "@material-tailwind/react";
 
 const BlogPostEditor = () => {
-    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-    const [loading, setLoading] = useState(true);
-    const [value, setValue] = useState(deserialize(''));
-    const [user, setUser] = useState(null);
+    const dispatch = useDispatch();
     const [uploading, setUploading] = useState(false);
+    const { user, loading, error } = useSelector(state => state.user);
+    const [value, setValue] = useState('');
+    const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState('');
 
-
-    useEffect(async () => {
-        try {
-            var response = await client.get('/user');
-            setUser(response.data.user);
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
-            if (error.response.status == 401) {
-                setLoading(false);
-            }
-        }
-    }, []);
-
-
-    const renderLeaf = ({ attributes, children, leaf }) => {
-        let el = <>{children}</>;
-
-        if (leaf.bold) {
-            el = <strong>{el}</strong>;
-        }
-
-        if (leaf.italic) {
-            el = <em>{el}</em>;
-        }
-
-        if (leaf.underline) {
-            el = <u>{el}</u>;
-        }
-
-        return <span {...attributes}>{el}</span>;
-    };
+    useEffect(() => {
+        dispatch(fetchUserData());
+    }, [dispatch]);
 
     const cancel = () => {
         route('/');
     }
 
+    const closeDialog = () => setOpen(false);
+
+
     const post = async () => {
 
 
         setUploading(true);
-        const content = serialize(value);
+        const content = value;
         const startTime = Date.now();
         try {
             const post_res = await client.post('/post', {
-                'title': '',
+                'title': title,
                 'content': content
             });
         } catch (error) {
             console.log(error);
         }
-
         const elapsedTime = Date.now() - startTime;
 
         if (elapsedTime < 600) {
@@ -107,59 +56,26 @@ const BlogPostEditor = () => {
         setUploading(false);
         //go back to home
         route('/');
-
-
-
     }
 
-    if (loading) return (<Spinner></Spinner>);
+    if (loading && !user) return (<div class="h-full"><Spinner className='m-auto h-full'></Spinner></div>);
     if (user == null) return (<NotFound></NotFound>);
     return (
-        <div className="flex h-screen flex-col justify-start mt-10">
+        <div className="flex flex-col justify-start sm:pt-10 sm:w-screen sm:max-w-2xl text-white">
 
             <div class="flex flex-row justify-between items-center mb-20 bg-gray-200 rounded-xl p-2">
                 <Button onClick={cancel} size='lg' className='h-12 w-28'>Cancel</Button>
                 <span class="text-2xl text-black font-semibold">new post</span>
-                <Button onClick={post} size="lg" className='h-12 w-28 items-center p-1 text-center'>{uploading ? <Spinner className='mx-auto'></Spinner> : 'Post 📥'}</Button>
+                <Button disabled={title.trim().length === 0} onClick={post} size="lg" className='h-12 w-28 items-center p-1 text-center'>{uploading ? <Spinner className='mx-auto'></Spinner> : 'Post 📥'}</Button>
             </div>
-            <Slate editor={editor} initialValue={value} onChange={newValue => setValue(newValue)}>
-                <div className="p-4">
-                    <div className="mb-4">
-                        <button
-                            className={`mr-2 px-2 ${isMarkActive(editor, 'bold') ? 'bg-gray-400' : ''}`}
-                            onMouseDown={event => {
-                                event.preventDefault();
-                                toggleMark(editor, 'bold');
-                            }}
-                        ><b>
-                                Bold</b>
-                        </button>
-                        <button
-                            className={`mr-2 px-2 ${isMarkActive(editor, 'italic') ? 'bg-gray-400' : ''}`}
-                            onMouseDown={event => {
-                                event.preventDefault();
-                                toggleMark(editor, 'italic');
-                            }}
-                        ><i>
-                                Italic</i>
-                        </button>
-                        <button
-                            className={`px-2 underline ${isMarkActive(editor, 'underline') ? 'bg-gray-200' : ''}`}
-                            onMouseDown={event => {
-                                event.preventDefault();
-                                toggleMark(editor, 'underline');
-                            }}
-                        >
-                            Underline
-                        </button>
-                    </div>
-                    <Editable
-                        className="p-4 border border-gray-300 rounded w-96 text-start text-white"
-                        placeholder="Enter some text..."
-                        renderLeaf={renderLeaf}
-                    />
-                </div>
-            </Slate>
+            <input type="text" placeholder="Post Title" class="mb-5 p-2" value={title} onChange={el => setTitle(el.target.value)}></input>
+            <ReactQuill theme="snow" value={value} onChange={setValue} />
+            <Dialog open={open} size='xs' className='bg-gray-200 w-64 rounded-3xl' >
+                <DialogHeader className='justify-center mb-2'>Logout?</DialogHeader>
+                <DialogFooter className='justify-center flex flex-row'>
+                    <button onClick={closeDialog} class="text-xl mx-2 text-white bg-gray-800 text-center p-4 font-semibold rounded-xl flex-grow">No</button>
+                </DialogFooter>
+            </Dialog>
         </div>
     );
 };
