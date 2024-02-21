@@ -52,52 +52,55 @@ export const fetchData = (number) => async dispatch => {
 // actions.js
 
 export const fetchUserData = (number) => async dispatch => {
-    try {
-        const cacheKey = `USER`;
-        db.cache.get(cacheKey).then(async (cachedResult) => {
-            if (cachedResult) {
-                console.log(
-                    'gabre'
-                );
+    const cacheKey = `USER`;
+    db.cache.get(cacheKey).then(async (cachedResult) => {
+        if (cachedResult) {
+            console.log(
+                'gabre'
+            );
 
-                await dispatch({
-                    type: SET_USER_DATA,
-                    payload: cachedResult.value
-                });
-                console.log('grebbe');
-                //post-load
-                var data;
-                try {
-                    const res = await client.get('/user');
-                    data = res.data;
-                } catch (e) {
-                    data = null;
-                }
-                console.log('user_data:');
-                console.log(data);
-
-                db.cache.put({ key: cacheKey, value: data }).then((a) => {
-                    dispatch({ type: SET_USER_DATA, payload: data });
-                });
-
-            } else {
-                dispatch({ type: SET_LOADING, payload: true });
+            await dispatch({
+                type: SET_USER_DATA,
+                payload: cachedResult.value
+            });
+            console.log('grebbe');
+            //post-load
+            var data;
+            try {
                 const res = await client.get('/user');
+                data = res.data;
+            } catch (e) {
+                data = null;
+            }
+            console.log('user_data:');
+            console.log(data);
 
+            db.cache.put({ key: cacheKey, value: data }).then((a) => {
+                dispatch({ type: SET_USER_DATA, payload: data });
+            });
+
+        } else {
+            dispatch({ type: SET_LOADING, payload: true });
+            try {
+
+                const res = await client.get('/user').catch(err => { throw err });
                 db.cache.put({ key: cacheKey, value: res.data }).then((a) => {
                     dispatch({ type: SET_USER_DATA, payload: res.data });
                     dispatch({ type: SET_LOADING, payload: false });
                 });
+            } catch (error) {
+                console.log("GOT");
+                // Dispatch an action to set error state if an error occurs
+                dispatch({
+                    type: SET_ERROR,
+                    payload: error.message
+                });
+                console.error(error);
             }
-        });
-    } catch (error) {
-        // Dispatch an action to set error state if an error occurs
-        dispatch({
-            type: FETCH_PAGE_DATA_FAILURE,
-            payload: error.message
-        });
-        console.error(error);
-    }
+
+        }
+    });
+
 };
 
 export const fetchPost = (number, postID) => async dispatch => {
@@ -111,6 +114,7 @@ export const fetchPost = (number, postID) => async dispatch => {
                 });
                 //post-load
                 const res = await client.get('/post/' + number + '/' + postID);
+                console.log(res.data);
                 db.cache.put({ key: cacheKey, value: res.data }).then((a) => {
                     dispatch({ type: FETCH_POST_DATA, payload: res.data });
                 });

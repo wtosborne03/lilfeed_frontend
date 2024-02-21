@@ -40,7 +40,7 @@ export default class Home extends Component {
 
         const myPage = () => {
             console.log(data);
-            route('/' + data.user['number']);
+            route('/' + data.user['code']);
         }
 
         const writePost = () => {

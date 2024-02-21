@@ -14,7 +14,7 @@ export const ProfileCard = (props) => {
         const shareData = {
             title: "",
             text: "My lil-Feed!",
-            url: 'https://lil-feed.com/' + props.user.user['number'],
+            url: 'https://lil-feed.com/' + props.user.user['code'],
         };
         navigator.share(shareData);
     }
@@ -26,12 +26,10 @@ export const ProfileCard = (props) => {
                     <div class="flex flex-row justify-between w-full">
                         <div class="font-bold text-3xl mb-2">{props.user.user['name']}</div>
                         <div class="flex-grow"></div>
-                        <Button onClick={share} variant="gradient" className="flex items-center gap-3">
-                            <FaShareFromSquare size="1.5em"></FaShareFromSquare>Share
-                        </Button>
+
                     </div>
                     <div class="flex flex-row gap-3">
-                        <div onClick={share} class="font-bold text-gray-300 hover:cursor-pointer text-lg mb-2">{props.user.user['number']}</div>
+                        <div onClick={share} class="font-bold text-gray-600 hover:cursor-pointer text-lg mb-2">lil-feed.com/{props.user.user['code']}</div>
                     </div>
                     <p class=" text-base">
                         {props.user.user['bio']}
