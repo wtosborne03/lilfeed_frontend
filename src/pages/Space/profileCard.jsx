@@ -37,9 +37,7 @@ export const ProfileCard = (props) => {
                 </div>
 
             </div>
-            <div class=" border w-full h-0">
 
-            </div>
         </div>
     );
 }

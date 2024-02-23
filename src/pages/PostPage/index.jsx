@@ -42,7 +42,7 @@ const PostPage = ({ number, slug }) => {
                     <meta name="description" content={post.title} />
                 </>
                 , document.head)}
-            <div onClick={goBack} class=" text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
+            <div onClick={goBack} class=" text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ feed</div>
 
 
             <div class="rounded-2xl mb-5 w-full text-white">

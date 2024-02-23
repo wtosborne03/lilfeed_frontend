@@ -67,31 +67,31 @@ const ProfileEditPage = () => {
     if (user == null) return (<NotFound></NotFound>);
     return (
         <div class="pt-4 sm:w-screen sm:max-w-2xl">
-            <div onClick={goBack} class=" text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
-            <div className=" bg-gray-200 sm:w-screen sm:max-w-2xl rounded-xl p-4 text-black">
+            <div onClick={goBack} class="text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
+            <div className="sm:w-screen sm:max-w-2xl rounded-xl p-4 text-white">
 
-                <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
+                <h1 className="text-2xl font-bold mb-4">edit profile</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
-                        label="Name"
+                        label="name"
                         value={name}
-                        style="font-size:16px;"
+                        style="font-size:16px; color:white"
                         onChange={(e) => setName(e.target.value)}
                     />
 
                     <div >
-                        <Textarea label="Bio" value={bio}
-                            style="font-size:16px;"
-
+                        <Textarea label="bio" value={bio}
+                            style="font-size:16px;color:white;"
                             onChange={(e) => setBio(e.target.value)}
                         />
                     </div>
 
-                    <Button type="submit" size="lg" className='h-14 w-40 items-center'>{updating ? <Spinner className='mx-auto'></Spinner> : 'Save Profile'}</Button>
+                    <Button type="submit" size="lg" className='h-14 lowercase bg-gray-800 text-lg w-40 items-center'>{updating ? <Spinner className='mx-auto'></Spinner> : 'save'}</Button>
                 </form>
 
             </div>
-            <button onClick={deleteAccount} class="text-red-600 mt-10 bg-red-700 bg-opacity-0 hover:bg-opacity-10 text-2xl font-bold mb-8 w-64 border-2 border-red-600 p-2">Delete Account</button>
+            <div class="border-t border-gray-400 w-full mt-10"></div>
+            <button onClick={deleteAccount} class="text-red-600 mt-10 bg-red-700 bg-opacity-0 hover:bg-opacity-10 text-2xl font-bold mb-8 w-64 border-2 border-red-600 p-2">delete account</button>
             <Dialog open={open} size='xs' className='bg-gray-200 w-64 rounded-3xl' >
                 <DialogHeader className='justify-center mb-2'>Delete Account?</DialogHeader>
                 <DialogFooter className='justify-center flex flex-row'>

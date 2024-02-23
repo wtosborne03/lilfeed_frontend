@@ -62,11 +62,10 @@ const BlogPostEditor = () => {
     if (user == null) return (<NotFound></NotFound>);
     return (
         <div className="flex flex-col justify-start sm:pt-10 sm:w-screen sm:max-w-2xl text-white">
-
-            <div class="flex flex-row justify-between items-center mb-20 bg-gray-200 rounded-xl p-2">
-                <Button onClick={cancel} size='lg' className='h-12 w-28'>Cancel</Button>
-                <span class="text-2xl text-black font-semibold">new post</span>
-                <Button disabled={title.trim().length === 0} onClick={post} size="lg" className='h-12 w-28 items-center p-1 text-center'>{uploading ? <Spinner className='mx-auto'></Spinner> : 'Post 📥'}</Button>
+            <div onClick={cancel} class=" text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
+            <div class="mb-5 mt-10 flex flex-row items-center justify-between">
+                <div class="text-2xl font-semibold">new feed post</div>
+                <Button disabled={title.trim().length === 0} onClick={post} className='h-12 w-28 lowercase items-center p-1 text-cap text-lg text-center bg-gray-800'>{uploading ? <Spinner className='mx-auto'></Spinner> : 'post 📥'}</Button>
             </div>
             <input type="text" placeholder="Post Title" class="mb-5 p-2" value={title} onChange={el => setTitle(el.target.value)}></input>
             <ReactQuill theme="snow" value={value} onChange={setValue} />

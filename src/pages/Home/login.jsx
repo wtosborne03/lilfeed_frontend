@@ -26,6 +26,18 @@ import { route } from 'preact-router';
 
 
 
+const MiniCard = (props) => {
+    return (
+        <div class="border-l-4 border-white mb-8 bg-white transition-all  cursor-pointer duration-100 hover:bg-opacity-5 bg-opacity-0 w-full text-white">
+            <div class="px-4 py-2 pointer-events-none">
+                <span class="flex flex-row items-center justify-between">
+                    <div class="text-start text-lg font-semibold">{props.text}</div>
+                    <div class="text-2xl">{props.icon}</div>
+                </span>
+            </div>
+        </div >
+    );
+}
 
 export default class Login extends Component {
 
@@ -140,23 +152,9 @@ export default class Login extends Component {
             );
         }
         return (
-            <div class="flex scroll flex-col items-center sm:w-screen sm:max-w-2xl overflow-hidden h-full flex-grow px-10 pt-10">
+            <div class="flex scroll flex-col items-center sm:w-screen sm:max-w-2xl  h-full flex-grow px-10 pt-10">
                 <h1 class="text-white text-7xl font-bold mb-8">lil-Feed</h1>
-                <div className="text-container h-32">
-                    <TransitionGroup component={null}>
-                        <CSSTransition key={text} timeout={2000} classNames="fade">
-                            <div className="text-box text-white text-2xl font-bold  h-0">
-                                {text}
-                            </div>
-                        </CSSTransition>
-                    </TransitionGroup>
-                </div>
-
-
-
                 <TransitionGroup class="h-48" >
-
-
                     {!verifying ?
                         <CSSTransition
                             key="first"
@@ -252,11 +250,17 @@ export default class Login extends Component {
                         <button onClick={closeDialog} class="text-xl flex-grow text-white bg-red-500 text-center p-4 font-semibold rounded-xl">Ok</button>
                     </DialogFooter>
                 </Dialog>
-
+                <div class="h-32"></div>
+                <div class="text-start w-full h-32">
+                    <MiniCard text="your own feed, attached to your number." icon="📱" />
+                    <MiniCard text="find other feeds by phone number." icon="🔍" />
+                    <MiniCard text="anonymously share your feed with a five-letter code." icon="📫" />
+                    <MiniCard text="write about your day, or your job." icon="💬" />
+                    <MiniCard text="maybe write about your hike? or some flowers." icon="🌲" />
+                    <MiniCard text="customize your page." icon="📐" />
+                </div>
             </div >
-
         );
     }
 }
-
 
