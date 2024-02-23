@@ -12,14 +12,15 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css'
 import { route } from 'preact-router';
 import { FETCH_POST_LOAD } from '../../actions/types';
+import { createPortal } from 'preact/compat';
 
-const PostPage = ({ number, postID }) => {
+const PostPage = ({ number, slug }) => {
     const dispatch = useDispatch();
     const { post, loading, error } = useSelector(state => state.post);
 
     useEffect(() => {
-        dispatch(fetchPost(number, postID));
-    }, [dispatch, number, postID]);
+        dispatch(fetchPost(number, slug));
+    }, [dispatch, number, slug]);
 
 
 
@@ -35,6 +36,12 @@ const PostPage = ({ number, postID }) => {
 
     return (
         <div class="flex flex-col items-center sm:w-screen sm:max-w-2xl h-screen pt-4">
+            {createPortal(
+                <>
+                    <title>{post.title}</title>
+                    <meta name="description" content={post.title} />
+                </>
+                , document.head)}
             <div onClick={goBack} class=" text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
 
 

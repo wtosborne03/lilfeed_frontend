@@ -103,9 +103,9 @@ export const fetchUserData = (number) => async dispatch => {
 
 };
 
-export const fetchPost = (number, postID) => async dispatch => {
+export const fetchPost = (number, slug) => async dispatch => {
     try {
-        const cacheKey = `POST_${postID}`;
+        const cacheKey = `POST_${number}_${slug}`;
         db.cache.get(cacheKey).then(async (cachedResult) => {
             if (cachedResult) {
                 await dispatch({
@@ -113,7 +113,7 @@ export const fetchPost = (number, postID) => async dispatch => {
                     payload: cachedResult.value
                 });
                 //post-load
-                const res = await client.get('/post/' + number + '/' + postID);
+                const res = await client.get('/post/' + number + '/' + slug);
                 console.log(res.data);
                 db.cache.put({ key: cacheKey, value: res.data }).then((a) => {
                     dispatch({ type: FETCH_POST_DATA, payload: res.data });
@@ -121,7 +121,7 @@ export const fetchPost = (number, postID) => async dispatch => {
 
             } else {
                 dispatch({ type: FETCH_POST_LOAD });
-                const res = await client.get('/post/' + number + '/' + postID);
+                const res = await client.get('/post/' + number + '/' + slug);
 
                 db.cache.put({ key: cacheKey, value: res.data }).then((a) => {
                     dispatch({ type: FETCH_POST_DATA, payload: res.data });

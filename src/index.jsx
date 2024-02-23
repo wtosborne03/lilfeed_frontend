@@ -16,19 +16,24 @@ import { r_store } from './redux/store.js';
 import { Provider } from 'react-redux';
 import PostPage from './pages/PostPage/index.jsx';
 import Explore from './pages/Explore/index.jsx';
-
+import { createPortal } from 'preact/compat';
 export function App() {
 	return (
 		<ThemeProvider>
 			<Provider store={r_store}>
 				<main>
+					{createPortal(
+						<>
+							<title>lil-Feed</title>
+						</>
+						, document.head)}
 					<Router >
 						<Index path="/" />
 						<Space path="/:number" />
 						<BlogPostEditor path="/write" />
 						<Explore path="/explore" />
 						<ProfileEditPage path="/edit" />
-						<PostPage path="/:number/:postID" />
+						<PostPage path="/:number/:slug" />
 						<NotFound default />
 					</Router>
 				</main>

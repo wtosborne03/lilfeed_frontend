@@ -38,6 +38,7 @@ const space = ({ number }) => {
             {data && data.user.Posts.toReversed().map(function (item, i) {
                 return <Card number={number} post={item}></Card>
             })}
+            <div class="h-4"></div>
         </div>
     );
 }
