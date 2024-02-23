@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.bubble.css'
 import { route } from "preact-router";
 export const Card = (props) => {
 
-    const gotop = () => { route(`/${props.number}/${props.post.id}`) }
+    const gotop = () => { route(`/${props.number}/${props.post.slug}`) }
     return (
 
         <div class="bg-gray-200 rounded-2xl mb-5 w-full text-black" onClick={gotop}>

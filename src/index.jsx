@@ -15,6 +15,7 @@ import { hist } from './axios-client.js';
 import { r_store } from './redux/store.js';
 import { Provider } from 'react-redux';
 import PostPage from './pages/PostPage/index.jsx';
+import Explore from './pages/Explore/index.jsx';
 
 export function App() {
 	return (
@@ -25,6 +26,7 @@ export function App() {
 						<Index path="/" />
 						<Space path="/:number" />
 						<BlogPostEditor path="/write" />
+						<Explore path="/explore" />
 						<ProfileEditPage path="/edit" />
 						<PostPage path="/:number/:postID" />
 						<NotFound default />

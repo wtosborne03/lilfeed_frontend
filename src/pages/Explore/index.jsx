@@ -1,5 +1,4 @@
 // @ts-nocheck
-import './style.css';
 import { Component } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import client from '../../axios-client.js';
@@ -21,7 +20,7 @@ import { MdPostAdd } from 'react-icons/md';
 
 
 
-export default class Home extends Component {
+export default class Explore extends Component {
     render(props, state) {
         const data = props;
         const [verifying, setVerifying] = useState(false);
@@ -49,28 +48,19 @@ export default class Home extends Component {
             route('/write');
         }
 
-        const editPage = () => {
-            route('/edit');
-        }
-
-        const explorePage = () => {
-            route('/explore');
+        const goBack = () => {
+            route('/');
         }
 
         useEffect(() => {
         }, []);
         return (
             <div class="flex flex-col items-center sm:w-screen sm:max-w-2xl px-10 pt-10">
-                <h1 class="text-white text-7xl font-bold mb-8">lil-Feed</h1>
-                <button onClick={myPage} class="text-white bg-gray-700 bg-opacity-0 hover:bg-opacity-10 text-2xl font-bold mb-8 w-64 border-2 border-white p-2">my feed</button>
-                <button onClick={explorePage} class="text-white bg-gray-700 bg-opacity-0 hover:bg-opacity-10 text-2xl font-bold mb-8 w-64 border-2 border-white p-2">explore</button>
-                <div class="flex flex-row w-64 gap-5">
-                    <button onClick={editPage} class="text-white bg-gray-700 bg-opacity-0 hover:bg-opacity-10 text-2xl font-bold mb-8 w-32 border-2 border-white p-2">⚙️</button>
-                    <button onClick={logOut} class="text-red-600 bg-red-700 bg-opacity-0 hover:bg-opacity-10 text-2xl font-bold mb-8 w-32 border-2 border-red-600 p-2">logout</button>
-                </div>
-                <div class="fixed bottom-4 right-4">
-                    <Button color='blue-gray' onClick={writePost}><MdPostAdd size="30"></MdPostAdd></Button>
-                </div>
+                <div onClick={goBack} class=" text-gray-600 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
+
+                <h1 class="text-white text-2xl font-bold mb-8">explore new feeds</h1>
+                coming soon 🏗️
+
                 <Dialog open={open} size='xs' className='bg-gray-200 w-64 rounded-3xl' >
                     <DialogHeader className='justify-center mb-2'>Logout?</DialogHeader>
                     <DialogFooter className='justify-center flex flex-row'>
