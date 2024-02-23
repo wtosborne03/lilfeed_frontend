@@ -18,8 +18,6 @@ import { SiWritedotas } from 'react-icons/si';
 import { MdPostAdd } from 'react-icons/md';
 
 
-
-
 export default class Explore extends Component {
     render(props, state) {
         const data = props;

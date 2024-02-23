@@ -11,7 +11,6 @@ import { Card } from './card';
 import { hist } from '../../axios-client.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../../actions/dataActions';
-
 const space = ({ number }) => {
     const dispatch = useDispatch();
     const { data, loading, error } = useSelector(state => state.data);
