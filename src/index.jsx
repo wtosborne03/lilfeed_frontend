@@ -17,11 +17,12 @@ import { Provider } from 'react-redux';
 import PostPage from './pages/PostPage/index.jsx';
 import Explore from './pages/Explore/index.jsx';
 import { createPortal } from 'preact/compat';
+import { Footer } from './components/Footer.jsx';
 export function App() {
 	return (
 		<ThemeProvider>
 			<Provider store={r_store}>
-				<main>
+				<main class="flex flex-col min-h-screen">
 					{createPortal(
 						<>
 							<title>lil-Feed</title>
@@ -36,7 +37,10 @@ export function App() {
 						<PostPage path="/:number/:slug" />
 						<NotFound default />
 					</Router>
+					<Footer />
+
 				</main>
+
 			</Provider>
 		</ThemeProvider >
 	);

@@ -23,6 +23,7 @@ import {
     Button,
 } from "@material-tailwind/react";
 import { route } from 'preact-router';
+import { Footer } from '../../components/Footer';
 
 
 
@@ -32,7 +33,7 @@ const MiniCard = (props) => {
             <div class="px-4 py-2 pointer-events-none">
                 <span class="flex flex-row items-center justify-between">
                     <div class="text-start text-lg font-semibold">{props.text}</div>
-                    <div class="text-2xl">{props.icon}</div>
+                    <div class="text-3xl">{props.icon}</div>
                 </span>
             </div>
         </div >
@@ -152,106 +153,108 @@ export default class Login extends Component {
             );
         }
         return (
-            <div class="flex scroll flex-col items-center sm:w-screen sm:max-w-2xl  h-full flex-grow px-10 pt-10">
-                <h1 class="text-white text-7xl font-bold mb-8">lil-Feed</h1>
-                <TransitionGroup class="h-48" >
-                    {!verifying ?
-                        <CSSTransition
-                            key="first"
-                            timeout={1000}
-                            classNames="fade-left"
-                        >
-                            <div class="anim-invisible">
-                                <form onSubmit={verify} class="number-input relative">
-                                    <div class=" p-2 rounded-xl">
-                                        <div className="relative flex h-16 w-full text-white max-w-[24rem]">
-                                            <Menu placement="bottom-start" >
-                                                <MenuHandler>
-                                                    <Button
-                                                        ripple={false}
-                                                        variant="text"
-                                                        size='lg'
-                                                        color="blue-gray"
-                                                        className="flex  h-16 w-24 items-center gap-3 py-3 rounded-r-none  border-blue-gray-200 bg-blue-gray-500/10 pl-3"
-                                                    >
-                                                        <img
-                                                            src={flags.svg}
-                                                            alt={name}
-                                                            className="h-full aspect-square  my-auto rounded-full object-cover"
-                                                        />
-                                                        <span class="text-white">{countryCallingCode}</span>
+            <div class="flex scroll flex-col items-center sm:w-screen sm:max-w-2xl h-full flex-grow pt-10">
+                <div class="px-10">
+                    <h1 class="text-white text-7xl font-bold mb-8">lil-Feed</h1>
+                    <TransitionGroup class="h-48" >
+                        {!verifying ?
+                            <CSSTransition
+                                key="first"
+                                timeout={1000}
+                                classNames="fade-left"
+                            >
+                                <div class="anim-invisible">
+                                    <form onSubmit={verify} class="number-input relative">
+                                        <div class=" p-2 rounded-xl">
+                                            <div className="relative flex h-16 w-full text-white max-w-[24rem]">
+                                                <Menu placement="bottom-start" >
+                                                    <MenuHandler>
+                                                        <Button
+                                                            ripple={false}
+                                                            variant="text"
+                                                            size='lg'
+                                                            color="blue-gray"
+                                                            className="flex  h-16 w-24 items-center gap-3 py-3 rounded-r-none  border-blue-gray-200 bg-blue-gray-500/10 pl-3"
+                                                        >
+                                                            <img
+                                                                src={flags.svg}
+                                                                alt={name}
+                                                                className="h-full aspect-square  my-auto rounded-full object-cover"
+                                                            />
+                                                            <span class="text-white">{countryCallingCode}</span>
 
-                                                    </Button>
-                                                </MenuHandler>
-                                                <MenuList className="max-h-[20rem] max-w-[16rem] bg-gray-300 text-black font-normal text-md">
-                                                    {countries.map(({ name, flags, countryCallingCode }, index) => {
-                                                        return (
-                                                            <MenuItem
-                                                                key={name}
-                                                                value={name}
-                                                                className="flex items-center py-3 gap-3 "
-                                                                onClick={() => setCountry(index)}
-                                                            >
-                                                                <img
-                                                                    src={flags.svg}
-                                                                    alt={name}
-                                                                    className="h-5 w-5  my-auto rounded-full object-cover"
-                                                                />
-                                                                {name} <span className="ml-auto">{countryCallingCode}</span>
-                                                            </MenuItem>
-                                                        );
-                                                    })}
-                                                </MenuList>
-                                            </Menu>
-                                            <input
-                                                type="tel"
-                                                size='lg'
-                                                placeholder="Mobile Number"
-                                                value={number}
-                                                onChange={num => setNumber(num.target.value)}
-                                                class="rounded-l-none p-3 w-60 font-semibold text-white h-16 focus:outline-none text-2xl rounded-xl"
-                                            />
-                                        </div></div>
-                                    <button disabled={!isValidPhoneNumber(countryCallingCode + number)} type="submit" class="text-xl active:scale-95  mt-9 disabled:opacity-60 bg-gray-800 text-center p-4 font-semibold rounded-xl">login / register 🤙</button>
-                                </form>
-                            </div></CSSTransition>
-                        :
-                        <CSSTransition
-                            key="second"
-                            timeout={1000}
-                            classNames="fade-right"
-                        >
-                            <div class="anim-invisible">
-                                <form onSubmit={confirm} class="number-input relative">
-                                    <div onClick={goBack} class=" text-gray-400 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
-                                    <span className=" flex flex-row relative w-96 justify-center">
-                                        {pin.map((_, index) => (
-                                            <input
-                                                key={`codefield_${index}`}
-                                                ref={(el) => (inputRefs.current[index] = el)}
-                                                type="tel"
-                                                class="h-16 w-12 border-2 mx-2 focus:outline-none focus:scale-105 rounded-lg flex items-center text-center font-semibold text-3xl"
-                                                maxLength={1}
-                                                value={pin[index]}
-                                                onChange={(e) => handleChange(index, e.target.value)}
-                                                onKeyDown={(e) => handleKeyDown(index, e)}
-                                            />
-                                        ))}
-                                    </span>
-                                    <button disabled={!(code.length == 4)} type="submit" class="text-xl mt-9 active:scale-95  disabled:opacity-60 bg-gray-800 text-center p-4 font-semibold rounded-xl">Verify 🔑</button>
-                                </form>
-                            </div></CSSTransition>
-                    }
+                                                        </Button>
+                                                    </MenuHandler>
+                                                    <MenuList className="max-h-[20rem] max-w-[16rem] bg-gray-300 text-black font-normal text-md">
+                                                        {countries.map(({ name, flags, countryCallingCode }, index) => {
+                                                            return (
+                                                                <MenuItem
+                                                                    key={name}
+                                                                    value={name}
+                                                                    className="flex items-center py-3 gap-3 "
+                                                                    onClick={() => setCountry(index)}
+                                                                >
+                                                                    <img
+                                                                        src={flags.svg}
+                                                                        alt={name}
+                                                                        className="h-5 w-5  my-auto rounded-full object-cover"
+                                                                    />
+                                                                    {name} <span className="ml-auto">{countryCallingCode}</span>
+                                                                </MenuItem>
+                                                            );
+                                                        })}
+                                                    </MenuList>
+                                                </Menu>
+                                                <input
+                                                    type="tel"
+                                                    size='lg'
+                                                    placeholder="Mobile Number"
+                                                    value={number}
+                                                    onChange={num => setNumber(num.target.value)}
+                                                    class="rounded-l-none p-3 w-60 font-semibold text-white h-16 focus:outline-none text-2xl rounded-xl"
+                                                />
+                                            </div></div>
+                                        <button disabled={!isValidPhoneNumber(countryCallingCode + number)} type="submit" class="text-xl active:scale-95  mt-9 disabled:opacity-60 bg-gray-800 text-center p-4 font-semibold rounded-xl">login / register 🤙</button>
+                                    </form>
+                                </div></CSSTransition>
+                            :
+                            <CSSTransition
+                                key="second"
+                                timeout={1000}
+                                classNames="fade-right"
+                            >
+                                <div class="anim-invisible">
+                                    <form onSubmit={confirm} class="number-input relative">
+                                        <div onClick={goBack} class=" text-gray-400 hover:cursor-pointer pl-2 mb-5 underline text-lg">‹ back</div>
+                                        <span className=" flex flex-row relative w-96 justify-center">
+                                            {pin.map((_, index) => (
+                                                <input
+                                                    key={`codefield_${index}`}
+                                                    ref={(el) => (inputRefs.current[index] = el)}
+                                                    type="tel"
+                                                    class="h-16 w-12 border-2 mx-2 focus:outline-none focus:scale-105 rounded-lg flex items-center text-center font-semibold text-3xl"
+                                                    maxLength={1}
+                                                    value={pin[index]}
+                                                    onChange={(e) => handleChange(index, e.target.value)}
+                                                    onKeyDown={(e) => handleKeyDown(index, e)}
+                                                />
+                                            ))}
+                                        </span>
+                                        <button disabled={!(code.length == 4)} type="submit" class="text-xl mt-9 active:scale-95  disabled:opacity-60 bg-gray-800 text-center p-4 font-semibold rounded-xl">Verify 🔑</button>
+                                    </form>
+                                </div></CSSTransition>
+                        }
 
-                </TransitionGroup>
-                <Dialog open={open} size="xs" className='bg-gray-200 w-64 rounded-3xl'>
-                    <DialogHeader className='justify-center'>Invalid Code</DialogHeader>
-                    <DialogFooter className='justify-center flex flex-row'>
-                        <button onClick={closeDialog} class="text-xl flex-grow text-white bg-red-500 text-center p-4 font-semibold rounded-xl">Ok</button>
-                    </DialogFooter>
-                </Dialog>
+                    </TransitionGroup>
+                    <Dialog open={open} size="xs" className='bg-gray-200 w-64 rounded-3xl'>
+                        <DialogHeader className='justify-center'>Invalid Code</DialogHeader>
+                        <DialogFooter className='justify-center flex flex-row'>
+                            <button onClick={closeDialog} class="text-xl flex-grow text-white bg-red-500 text-center p-4 font-semibold rounded-xl">Ok</button>
+                        </DialogFooter>
+                    </Dialog>
+                </div>
                 <div class="h-32"></div>
-                <div class="text-start w-full h-32">
+                <div class="text-start w-full px-4">
                     <MiniCard text="your own feed, attached to your number." icon="📱" />
                     <MiniCard text="find other feeds by phone number." icon="🔍" />
                     <MiniCard text="anonymously share your feed with a five-letter code." icon="📫" />
@@ -259,6 +262,7 @@ export default class Login extends Component {
                     <MiniCard text="maybe write about your hike? or some flowers." icon="🌲" />
                     <MiniCard text="customize your page." icon="📐" />
                 </div>
+
             </div >
         );
     }

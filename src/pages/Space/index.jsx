@@ -35,7 +35,7 @@ const space = ({ number }) => {
     console.log(data);
 
     return (
-        <div class="flex flex-col items-center sm:w-screen sm:max-w-2xl h-screen pt-4">
+        <div class="flex flex-col items-center sm:w-screen sm:max-w-2xl pt-4">
             <div class="text-gray-600 hover:cursor-pointer pl-2 mb-5 text-lg">
                 <span class="underline" onClick={goBack}>‹ lil-Feed</span>
                 {data.self &&
